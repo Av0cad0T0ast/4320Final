@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IT-4320 Trip Reservation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-bar {
+            background-color: white;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .nav-bar a {
+            color: #db7093;
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 18px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .content {
+            margin: 20px 0;
+        }
+        
+        select {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .error-message {
+            background-color: #ffe6e6;
+            color: #ff0000;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-bar">
+        <a href="/">Home</a>
+        <a href="/admin">Admin</a>
+        <a href="/reservations">Reservations</a>
+    </div>
+
+    <div class="container">
+        <h1>IT-4320 Trip Reservation System</h1>
+        
+        <div class="content">
+            <p>Welcome to the IT-4320 reservation system. Use the select box to choose whether to make a reservation or log in as administrator.</p>
+            
+            <form action="/process_choice" method="POST">
+                <label for="choice">Choose Menu Option:</label>
+                <select id="choice" name="choice" required>
+                    <option value="">Choose an option</option>
+                    <option value="reserve">Make a Reservation</option>
+                    <option value="admin">Administrator Login</option>
+                </select>
+                
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
