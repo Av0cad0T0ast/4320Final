@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reserve Your Seat</title>
+</head>
+<body>
+    <h1>Seating Chart</h1>
+    <table border="1">
+        {% for row in seating_chart %}
+        <tr>
+            {% for seat in row %}
+            <td>{{ seat }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    <form method="POST">
+        <label>First Name: <input type="text" name="first_name" required></label><br>
+        <label>Last Name: <input type="text" name="last_name" required></label><br>
+        <label>Seat Row: <input type="number" name="seat_row" min="1" max="12" required></label><br>
+        <label>Seat Column: <input type="number" name="seat_column" min="1" max="4" required></label><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
