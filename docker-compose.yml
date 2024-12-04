@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  bus_reservation_app:
+  flight_reservation:
     build: .
     ports:
       - "5001:5000"
