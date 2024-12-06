@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import sqlite3
 import os
+import time
 
 app = Flask(__name__)
 app.secret_key = "secret_key"
@@ -17,12 +18,19 @@ def get_db_connection():
     
     return conn
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    conn = get_db_connection()
-    
-    
-    conn.close()
+
+    if request.method == 'POST':
+        userOption = request.form.get('choice')
+
+        if userOption == "reserve":
+            return redirect(url_for('reservation'))
+        elif userOption == "admin":
+            return redirect(url_for('admin'))
+        else:
+            flash('Something went wrong. Please select a choice.')
+            return redirect(url_for('index'))
     
     return render_template('index.html')
 
@@ -67,10 +75,59 @@ def admin():
 @app.route('/admin/portal')
 def admin_portal():
     pass
-
+def  reservationcodeMaker(firstName):
+    timeaddOn = int(time.time()) % 1000
+    return f"{firstName}{timeaddOn}TC4320"
+    
 @app.route('/reservation', methods=['GET', 'POST'])
 def reservation():
-    pass
+
+    if request.method== 'POST':
+
+        firstName = request.form.get('first_name')
+        lastName = request.form.get('last_name')
+        seatRow = request.form.get('seat_row')
+        seatColumn = request.form.get('seat_column')
+
+        if not firstName or not lastName or not seatRow or not seatColumn:
+            flash ("You must fill out all fields.")
+            return redirect(url_for('reservation'))
+        
+        try:
+            seatRow = int(seatRow)-1
+            seatColumn = int(seatColumn)-1
+            if not( 0<= seatRow <12 )or not (0 <= seatColumn <4):
+                raise ValueError
+        except ValueError:
+            flash("Selected seat is not valid...Please pick a valid seat :)")
+            return redirect(url_for('reservation'))
+        
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM reservations WHERE seatRow = ? AND seatColumn = ?", (seatRow,seatColumn))
+        if cursor.fetchone():
+            flash("Unfortunately selected seat is already reserved! Please pick another seat.")
+            conn.close()
+            return redirect(url_for('reservation'))
+        
+        reservationCode = reservationcodeMaker(firstName)
+        
+        cursor.execute(
+            "INSERT INTO reservations (passengerName, seatRow, seatColumn, eTicketNumber) VALUES(?,?,?,?)",
+            (firstName,seatRow,seatColumn,reservationCode)
+        )
+
+        conn.commit()
+        conn.close()
+        flash (f"Yay! Reservation was succefful. Here is your reservation code: {reservationCode}. Please make sure to save it!")
+    
+    conn = get_db_connection()
+    seatingChart, _ = generate_seating_chart_and_sales(conn)
+    conn.close()
+
+    return render_template('reservation.html', seating_chart =seatingChart)
+
 
 def generate_seating_chart_and_sales(conn):
     

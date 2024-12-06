@@ -95,9 +95,9 @@
 </head>
 <body>
     <div class="nav-bar">
-        <a href="index.html">Home</a>
-        <a href="admin.html">Admin</a>
-        <a href="reservation.html">Reservations</a>
+        <a href="{{url_for('index') }}">Home</a>
+        <a href="{{url_for('admin') }}">Admin</a>
+        <a href="{{url_for('reservation') }}">Reservations</a>
     </div>
 
     <div class="container">
@@ -112,7 +112,7 @@
                 </tr>
                 {% endfor %}
             </table>
-            <form method="POST" class="reservation-form">
+            <form action ="{{url_for('reservation') }}" method="POST" class="reservation-form">
                 <label>First Name: <input type="text" name="first_name" required></label>
                 <label>Last Name: <input type="text" name="last_name" required></label>
                 <label>Row: 

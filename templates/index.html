@@ -77,9 +77,9 @@
 </head>
 <body>
     <div class="nav-bar">
-        <a href="index.html">Home</a>
-        <a href="admin.html">Admin</a>
-        <a href="reservation.html">Reservations</a>
+        <a href="{{url_for('index') }}">Home</a>
+        <a href="{{url_for('admin') }}">Admin</a>
+        <a href="{{url_for('reservation') }}">Reservations</a>
     </div>
 
     <div class="container">
@@ -88,7 +88,7 @@
         <div class="content">
             <p>Welcome to the IT-4320 reservation system. Use the select box to choose whether to make a reservation or log in as administrator.</p>
             
-            <form action="/process_choice" method="POST">
+            <form action="/" method="POST">
                 <label for="choice">Choose Menu Option:</label>
                 <select id="choice" name="choice" required>
                     <option value="">Choose an option</option>
